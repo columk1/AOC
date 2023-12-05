@@ -13,12 +13,11 @@ input.shift()
 let maps = input.map((line) => line.map((item) => item.map(Number)))
 
 function convert(seed, map) {
-  console.log('seed: ' + seed)
   if (!map) return seed
   let result
   map.forEach((range) => {
     let difference = range[0] - range[1]
-    if (seed > range[1] && seed < range[1] + range[2]) {
+    if (seed >= range[1] && seed < range[1] + range[2]) {
       result = seed + difference
     }
   })
@@ -27,7 +26,7 @@ function convert(seed, map) {
 }
 
 function part1() {
-  results = []
+  let results = []
   seeds.forEach((seed) => {
     results.push(convert(seed, maps[0]))
   })
@@ -36,3 +35,24 @@ function part1() {
 }
 
 console.log(part1())
+
+// Part Two
+
+allSeeds = []
+
+function part2() {
+  let result = Infinity
+  seeds.forEach((seed, index) => {
+    if (index % 2) {
+      for (let i = 0; i < seeds[index]; i++) {
+        let conversion = convert(seeds[index - 1] + i, maps[0])
+        result = conversion < result ? conversion : result
+      }
+    }
+  })
+  return result
+}
+
+console.log(part2())
+
+// Try reversing the map from 0, 1, 2, 3... and checking the result against possible seed ranges to get the first valid seed value
