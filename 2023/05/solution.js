@@ -1,5 +1,4 @@
 const fs = require('fs')
-const { StringDecoder } = require('string_decoder')
 let input = fs.readFileSync('input.txt').toString().split('\n\n')
 
 for (let i = 1; i < input.length; i++) {
