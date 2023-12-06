@@ -12,7 +12,7 @@ function getWins(time, record) {
   let wins = 1
   for (let speed = 2; speed < time; speed++) {
     let distance = (time - speed) * speed
-    if (distance > record) wins = time - speed - (speed + 1)
+    if (distance > record) wins = time - (speed * 2 + 1)
   }
   return wins * -1
 }
