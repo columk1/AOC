@@ -9,7 +9,7 @@ const route = input.shift().split('')
 const tree = {}
 
 input.forEach((line) => {
-  let values = line.match(/[A-Z]+/g)
+  let values = line.match(/[A-Z0-9]+/g)
   const key = values[0]
   tree[key] = [values[1], values[2]]
 })
@@ -29,4 +29,36 @@ function part1() {
   return count
 }
 
+function getCounts() {
+  let counts = []
+  let nodes = Object.keys(tree).filter((key) => key.indexOf('A') === 2 || key === 'AAA')
+  nodes.forEach((node, i) => {
+    let count = 0
+    while (!(node[2] === 'Z'))
+      route.forEach((direction) => {
+        node = direction === 'R' ? R(node) : L(node)
+        count++
+        if (node[2] === 'Z') {
+          counts.push(count)
+        }
+      })
+  })
+  return counts
+}
+
+const gcd = (a, b) => {
+  if (b === 0) return a
+  return gcd(b, a % b)
+}
+
+const lcm = (a, b) => {
+  return (a * b) / gcd(a, b)
+}
+
+function part2() {
+  let arr = getCounts()
+  return arr.reduce((acc, curr) => lcm(acc, curr), 1)
+}
+
 console.log(part1())
+console.log(part2())
