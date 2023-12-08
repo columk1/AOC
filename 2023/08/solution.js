@@ -31,17 +31,15 @@ function part1() {
 
 function getCounts() {
   let counts = []
-  let nodes = Object.keys(tree).filter((key) => key.indexOf('A') === 2 || key === 'AAA')
+  let nodes = Object.keys(tree).filter((key) => key[2] === 'A')
   nodes.forEach((node, i) => {
     let count = 0
     while (!(node[2] === 'Z'))
       route.forEach((direction) => {
         node = direction === 'R' ? R(node) : L(node)
         count++
-        if (node[2] === 'Z') {
-          counts.push(count)
-        }
       })
+    counts.push(count)
   })
   return counts
 }
