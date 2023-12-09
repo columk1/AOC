@@ -5,8 +5,6 @@ let input = fs
   .split('\n')
   .map((e) => (e = e.split(' ')).map(Number))
 
-console.log(input)
-
 function getNext(arr, diffs = []) {
   diffs.push(arr[arr.length - 1])
   let nextSeq = []
@@ -24,5 +22,25 @@ function part1(input) {
   return result.reduce((a, b) => a + b)
 }
 
-// console.log(getNext(input[2]))
 console.log(part1(input))
+
+// Part Two
+
+function getPrevious(arr, diffs = []) {
+  diffs.unshift(arr[0])
+  let nextSeq = []
+  for (let i = 1; i < arr.length; i++) {
+    let increment = arr[i] - arr[i - 1]
+    nextSeq.push(increment)
+  }
+  if (nextSeq.every((e) => e === 0)) return diffs.reduce((a, b) => b - a)
+  return getPrevious(nextSeq, diffs)
+}
+
+function part2(input) {
+  let result = []
+  input.forEach((e) => result.push(getPrevious(e)))
+  return result.reduce((a, b) => a + b)
+}
+
+console.log(part2(input))
