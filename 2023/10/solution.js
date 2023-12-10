@@ -1,6 +1,6 @@
 const fs = require('fs')
 let input = fs
-  .readFileSync('input.txt')
+  .readFileSync('testData.txt')
   .toString()
   .split('\n')
   .map((e) => (e = e.split('')))
@@ -24,18 +24,22 @@ let map = {
 function getExit(symbol, entry) {
   switch (symbol) {
     case '|':
-      if (entry === 'W' || entry === 'E') return null
+      if (entry !== 'N' && entry !== 'S') return null
       return entry === 'S' ? 'S' : 'N'
     case '-':
-      if (entry === 'N' || entry === 'S') return null
+      if (entry !== 'E' && entry !== 'W') return null
       return entry === 'E' ? 'E' : 'W'
     case 'L':
+      if (entry !== 'S' && entry !== 'W') return null
       return entry === 'S' ? 'E' : 'N'
     case 'J':
+      if (entry !== 'S' && entry !== 'E') return null
       return entry === 'S' ? 'W' : 'N'
     case '7':
+      if (entry !== 'E' && entry !== 'N') return null
       return entry === 'E' ? 'S' : 'W'
     case 'F':
+      if (entry !== 'N' && entry !== 'W') return null
       return entry === 'W' ? 'S' : 'E'
   }
 }
@@ -56,7 +60,9 @@ function part1(input) {
   let coords
 
   for (const [dr, dc, point] of neighbors) {
+    if (start[0] === 0 && dr === -1) continue
     const symbol = input[r + dr][c + dc]
+    console.log(symbol, point)
     if (pipes.includes(symbol)) {
       if (!getExit(symbol, point)) continue
       pipe = symbol
@@ -68,7 +74,9 @@ function part1(input) {
 
   let count = 1
   while (pipe !== 'S') {
+    console.log({ pipe, coords, direction })
     let [r, c] = coords
+    input[r][c] = 'X'
     let exit = getExit(pipe, direction)
     let [dr, dc] = map[exit]
     coords = [r + dr, c + dc]
@@ -80,3 +88,7 @@ function part1(input) {
 }
 
 console.log(part1(input))
+
+// Part Two
+
+console.log(input.flat())
