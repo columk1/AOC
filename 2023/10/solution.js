@@ -67,12 +67,11 @@ function part1(input) {
   }
 
   let count = 1
-  console.log({ direction, coords, pipe })
   while (pipe !== 'S') {
-    let [row, column] = coords
+    let [r, c] = coords
     let exit = getExit(pipe, direction)
     let [dr, dc] = map[exit]
-    coords = [row + dr, column + dc]
+    coords = [r + dr, c + dc]
     pipe = input[coords[0]][coords[1]]
     direction = exit
     count++
